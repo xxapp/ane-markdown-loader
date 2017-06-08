@@ -45,13 +45,12 @@ module.exports = function (source) {
         .use(html)
         .processSync(processed).toString()
     var component = [
-        `${importScript.join('')}
-        export const name = 'component-demo-input';
-        avalon.component(name, {
-            template: \`${result}\`
-        });
-        ${script.join('\n')}
-        `
+        importScript.join(''),
+        'export const name = \'component-demo-input\';' +
+        'avalon.component(name, {' +
+        '    template: `' + result + '`' +
+        '});' +
+        script.join('\n')
     ];
     console.log(component.join('\n'));
     return component.join('\n');
