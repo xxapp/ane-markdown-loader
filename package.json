@@ -1,0 +1,36 @@
+{
+  "name": "ane-markdown-loader",
+  "version": "2.0.0",
+  "description": "avalon 组件库 ane 依赖的文档工具，将 markdown 转为 avalon 组件",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.1",
+    "loader-utils": "^1.1.0",
+    "markdown-it": "^8.3.1",
+    "remark-html": "^6.0.0",
+    "remark-parse": "^3.0.1",
+    "remark-stringify": "^3.0.1",
+    "unified": "^6.1.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xxapp/ane-markdown-loader.git"
+  },
+  "keywords": [
+    "avalon",
+    "markdown",
+    "loader",
+    "components",
+    "ane"
+  ],
+  "author": "xxapp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xxapp/ane-markdown-loader/issues"
+  },
+  "homepage": "https://github.com/xxapp/ane-markdown-loader#readme"
+}
