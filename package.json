@@ -5,13 +5,9 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "cheerio": "^1.0.0-rc.1",
+    "highlight.js": "^9.12.0",
     "loader-utils": "^1.1.0",
-    "markdown-it": "^8.3.1",
-    "remark-html": "^6.0.0",
-    "remark-parse": "^3.0.1",
-    "remark-stringify": "^3.0.1",
-    "unified": "^6.1.4"
+    "markdown-it": "^8.3.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
