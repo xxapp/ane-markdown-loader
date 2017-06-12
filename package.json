@@ -6,7 +6,6 @@
   "dependencies": {},
   "devDependencies": {
     "highlight.js": "^9.12.0",
-    "loader-utils": "^1.1.0",
     "markdown-it": "^8.3.1"
   },
   "scripts": {
