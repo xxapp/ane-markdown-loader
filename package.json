@@ -1,6 +1,6 @@
 {
   "name": "ane-markdown-loader",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "avalon 组件库 ane 依赖的文档工具，将 markdown 转为 avalon 组件",
   "main": "index.js",
   "dependencies": {
