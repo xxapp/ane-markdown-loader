@@ -6,7 +6,7 @@ var path = require('path');
 module.exports = function (source) {
     this.cacheable();
 
-    var options = loaderUtils.getOptions();
+    var options = loaderUtils.getOptions(this);
     
     var markdownOptions = {
         html: true
