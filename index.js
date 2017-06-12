@@ -1,17 +1,23 @@
+var loaderUtils = require('loader-utils');
 var MarkdownIt = require('markdown-it');
 var hljs = require('highlight.js');
 var path = require('path');
 
 module.exports = function (source) {
     this.cacheable();
+
+    var options = loaderUtils.getOptions();
     
-    var options = {
-        html: true,
-        highlight: function (code) {
+    var markdownOptions = {
+        html: true
+    };
+    if (options.highlight) {
+        markdownOptions.highlight = function (code) {
             return hljs.highlightAuto(code).value;
         }
-    };
-    var md = MarkdownIt(options);
+    }
+
+    var md = MarkdownIt(markdownOptions);
 
     var tokens = md.parse(source);
     
