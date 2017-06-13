@@ -14,7 +14,7 @@ module.exports = function (source) {
             return hljs.highlightAuto(code).value;
         }
     };
-    if (options.highlight) {
+    if (!options.highlight) {
         delete markdownOptions.highlight;
     }
 
