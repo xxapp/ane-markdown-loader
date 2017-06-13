@@ -9,12 +9,13 @@ module.exports = function (source) {
     var options = loaderUtils.getOptions(this);
     
     var markdownOptions = {
-        html: true
-    };
-    if (options.highlight) {
-        markdownOptions.highlight = function (code) {
+        html: true,
+        highlight: function (code) {
             return hljs.highlightAuto(code).value;
         }
+    };
+    if (options.highlight) {
+        delete markdownOptions.highlight;
     }
 
     var md = MarkdownIt(markdownOptions);
@@ -35,7 +36,7 @@ module.exports = function (source) {
             }
             if (token.info.trim() === 'js') {
                 token.content = token.content.replace(/import[\s\S]*?from[\s\S]*?\n/g, function ($0) {
-                    if (importScript.indexOf($0.replace(/\s|\n/g, '')) < 0) {
+                    if (importScript.every(function (s) { return s.replace(/\s|\n/g, '') !== $0.replace(/\s|\n/g, '') })) {
                         importScript.push($0);
                     }
                     return '';
