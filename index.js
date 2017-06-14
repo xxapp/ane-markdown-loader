@@ -52,9 +52,13 @@ module.exports = function (source) {
         newTokens.push(token);
     });
     var result = md.renderer.render(newTokens, md.options);
+    var componentName = 'component-demo-' + this.resourcePath
+                                                .match(/.*components\/(.*)\.md/)[1]
+                                                .replace(/\//g, '-')
+                                                .replace(/ms-/g, '');
     var component = [
         importScript.join(''),
-        'export const name = \'component-demo-' + this.resourcePath.match(/.*\/ms-(.*)\.md/)[1] + '\';' +
+        'export const name = \'' + componentName + '\';' +
         'avalon.component(name, {' +
         '    template: `<div>' + result + '</div>`' +
         '});' +
