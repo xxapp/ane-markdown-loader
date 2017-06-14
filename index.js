@@ -51,7 +51,7 @@ module.exports = function (source) {
     var result = md.renderer.render(newTokens, md.options);
     var component = [
         importScript.join(''),
-        'export const name = \'component-demo-' + Date.now() + '\';' +
+        'export const name = \'component-demo-' + this.resourcePath.match(/.*\/ms-(.*)\.md/)[1] + '\';' +
         'avalon.component(name, {' +
         '    template: `<div>' + result + '</div>`' +
         '});' +
