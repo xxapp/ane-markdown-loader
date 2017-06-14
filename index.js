@@ -46,6 +46,9 @@ module.exports = function (source) {
                 token.attrSet(':skip', true);
             }
         }
+        if (token.type === 'table_open') {
+            token.attrSet('class', 'table table-bordered');
+        }
         newTokens.push(token);
     });
     var result = md.renderer.render(newTokens, md.options);
