@@ -35,13 +35,16 @@ module.exports = function (source) {
                 token.attrSet(':skip', true);
             }
             if (token.info.trim() === 'js') {
+                var tempImportScript = '';
                 token.content = token.content.replace(/import[\s\S]*?from[\s\S]*?\n/g, function ($0) {
+                    tempImportScript += $0;
                     if (importScript.every(function (s) { return s.replace(/\s|\n/g, '') !== $0.replace(/\s|\n/g, '') })) {
                         importScript.push($0);
                     }
                     return '';
                 })
                 script.push(token.content);
+                token = tempImportScript + token;
                 
                 token.attrSet(':skip', true);
             }
