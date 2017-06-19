@@ -44,7 +44,7 @@ module.exports = function (source) {
                     return '';
                 })
                 script.push(token.content);
-                token = tempImportScript + token;
+                token.content = tempImportScript + token.content;
                 
                 token.attrSet(':skip', true);
             }
