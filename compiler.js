@@ -56,8 +56,8 @@ module.exports = function (source) {
     });
     var result = md.renderer.render(newTokens, md.options);
     var componentName = 'component-demo-' + this.resourcePath
-                                                .match(/.*components\/(.*)\.md/)[1]
-                                                .replace(/\//g, '-')
+                                                .match(/.*components[\/|\\](.*)\.md/)[1]
+                                                .replace(/\/|\\/g, '-')
                                                 .replace(/ms-/g, '');
     var component = [
         importScript.join(''),
