@@ -12,7 +12,8 @@ module.exports = function (source) {
         html: true,
         highlight: function (code) {
             return hljs.highlightAuto(code).value;
-        }
+        },
+        linkify: true
     };
     if (!options.highlight) {
         delete markdownOptions.highlight;
@@ -20,45 +21,53 @@ module.exports = function (source) {
 
     var md = MarkdownIt(markdownOptions);
 
-    var tokens = md.parse(source);
-    
     var importScript = [];
     var script = [];
     var newTokens = [];
-    tokens.forEach(function (token) {
-        if (token.type === 'fence' && token.tag === 'code') {
-            if (token.info.trim() === 'html') {
-                var htmlToken = md.parse('<div></div>')[0];
-                htmlToken.content = token.content;
-                newTokens.push(htmlToken);
+    var result;
 
-                token.attrSet(':skip', true);
+    if (!options.noEval) {
+        var tokens = md.parse(source);
+        tokens.forEach(function (token) {
+            if (token.type === 'fence' && token.tag === 'code') {
+                if (token.info.trim() === 'html') {
+                    var htmlToken = md.parse('<div></div>')[0];
+                    htmlToken.content = token.content;
+                    newTokens.push(htmlToken);
+
+                    token.attrSet(':skip', true);
+                }
+                if (token.info.trim() === 'js') {
+                    var tempImportScript = '';
+                    token.content = token.content.replace(/import[\s\S]*?(from)?[\s\S]*?\n/g, function ($0) {
+                        tempImportScript += $0;
+                        if (importScript.every(function (s) { return s.replace(/\s|\n/g, '') !== $0.replace(/\s|\n/g, '') })) {
+                            importScript.push($0);
+                        }
+                        return '';
+                    })
+                    script.push(token.content);
+                    token.content = tempImportScript + token.content;
+                    
+                    token.attrSet(':skip', true);
+                }
             }
-            if (token.info.trim() === 'js') {
-                var tempImportScript = '';
-                token.content = token.content.replace(/import[\s\S]*?(from)?[\s\S]*?\n/g, function ($0) {
-                    tempImportScript += $0;
-                    if (importScript.every(function (s) { return s.replace(/\s|\n/g, '') !== $0.replace(/\s|\n/g, '') })) {
-                        importScript.push($0);
-                    }
-                    return '';
-                })
-                script.push(token.content);
-                token.content = tempImportScript + token.content;
-                
-                token.attrSet(':skip', true);
+            if (token.type === 'table_open') {
+                token.attrSet('class', 'table table-bordered');
             }
-        }
-        if (token.type === 'table_open') {
-            token.attrSet('class', 'table table-bordered');
-        }
-        newTokens.push(token);
-    });
-    var result = md.renderer.render(newTokens, md.options);
-    var componentName = 'component-demo-' + this.resourcePath
-                                                .match(/.*components[\/|\\](.*)\.md/)[1]
-                                                .replace(/\/|\\/g, '-')
+            newTokens.push(token);
+        });
+        result = md.renderer.render(newTokens, md.options);
+    } else {
+        result = md.render(source);
+    }
+
+    var componentName = 'component-demo-' + path.relative(__dirname, this.resourcePath)
+                                                .replace(new RegExp('\\' + path.sep, 'g'), '/')
+                                                .match(/(\.\.\/)*(.*)\.md/)[2]
+                                                .replace(/\//g, '-')
                                                 .replace(/ms-/g, '');
+
     var component = [
         importScript.join(''),
         'export const name = \'' + componentName + '\';' +
